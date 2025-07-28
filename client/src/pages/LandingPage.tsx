@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import axiosInstance from "../lib/axios";
+import { axiosInstance } from "../lib/axios.ts";
+
 const Home: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalType, setModalType] = useState<
@@ -15,15 +16,15 @@ const Home: React.FC = () => {
 
   const handleCreate = async () => {
     if (!projectName.trim()) return;
-
+    console.log("Creating project with name:", projectName);
     try {
-      const res = await axiosInstance.post("/api/create-project", {
+      const res = await axiosInstance.post("/create-project", {
         projectName,
       });
-      const data = res.data;
+      const data = res.data.data;
       setProjectId(data.projectId);
-      setModalType("username");
       setUsername("");
+      setModalType("username");
     } catch (error) {
       console.error("Error creating project:", error);
       alert("Error creating project. Please try again.");
@@ -54,6 +55,7 @@ const Home: React.FC = () => {
       return;
     }
     localStorage.setItem("username", username);
+    console.log("Username set:", projectId);
     navigate(`/editor/${projectId}`, { state: { username } });
     setIsModalOpen(false);
   };

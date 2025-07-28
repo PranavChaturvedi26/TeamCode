@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { User } from "./User.model.js";
+import User from "./UserModel.js";
 
 const ProjectSchema = new mongoose.Schema(
   {
@@ -52,4 +52,6 @@ const ProjectSchema = new mongoose.Schema(
   }
 );
 
-export const Project = mongoose.model("Project", ProjectSchema);
+const Project = mongoose.model("Project", ProjectSchema);
+
+export default Project;
