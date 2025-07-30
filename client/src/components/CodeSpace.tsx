@@ -50,13 +50,10 @@ const CodeSpace = () => {
       socket.connect();
       socket.once("connect", () => {
         console.log("🟢 Connected:", socket.id);
-        socket.emit("join-project-room", projectRoomId);
-        console.log("projectRoomId joined :", projectRoomId);
       });
-    } else {
-      socket.emit("join-project-room", projectRoomId);
-      console.log("projectRoomId joined :", projectRoomId);
     }
+    socket.emit("join-project-room", projectRoomId);
+    console.log("projectRoomId joined :", projectRoomId);
 
     socket.on("project-user-map", (users: Record<string, any>) => {
       console.log("👥 Users in project with active files:", users);
@@ -95,13 +92,13 @@ const CodeSpace = () => {
   }, []);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-gray-900">
       <div className="flex flex-col flex-1">
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden min-h-0">
           <EditorComponent projectId={projectId!} setOutput={setOutput} />
         </div>
 
-        <div className="h-60 border-t border-gray-700 overflow-y-scroll bg-black text-white scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+        <div className="h-48 md:h-60 lg:h-72 border-t border-gray-700 overflow-hidden">
           <Terminal output={output} />
         </div>
       </div>

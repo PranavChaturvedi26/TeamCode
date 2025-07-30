@@ -15,11 +15,17 @@ const sslOptions = {
   cert: fs.readFileSync("server.cert"),
 };
 const app = express();
+let httpsServer;
+
 connectDB().then(() => {
   const PORT = process.env.PORT || 5000;
-  https.createServer(sslOptions, app).listen(PORT, () => {
+  httpsServer = https.createServer(sslOptions, app);
+  httpsServer.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
+
+  // Setup Socket.IO with the HTTPS server
+  setupSocketIO(httpsServer);
 });
 
 dotenv.config();
@@ -32,7 +38,6 @@ app.use(
 );
 app.use(express.json());
 app.post("/create-project", CreateProjectController.createProject);
-setupSocketIO(app);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

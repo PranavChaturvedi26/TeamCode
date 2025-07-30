@@ -55,7 +55,7 @@ const Home: React.FC = () => {
       return;
     }
     localStorage.setItem("username", username);
-    console.log("Username set:", projectId);
+    console.log("Username set:", username);
     navigate(`/editor/${projectId}`, { state: { username } });
     setIsModalOpen(false);
   };
